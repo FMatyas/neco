@@ -1,6 +1,18 @@
 #include "zlomek.h"
 
-// Bod 2: Konstruktory
+// Pomocná metoda pro NSD (používá swapování hodnot)
+int Zlomek::najdiNSD(int a, int b) const {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    while (b != 0) {
+        int zbytek = a % b;
+        a = b;      // swap
+        b = zbytek; // swap
+    }
+    return a;
+}
+
+// Konstruktory
 Zlomek::Zlomek() {
     citatel = 1;
     jmenovatel = 1;
@@ -8,27 +20,22 @@ Zlomek::Zlomek() {
 
 Zlomek::Zlomek(int c, int j) {
     citatel = c;
-    if (j == 0) {
-        jmenovatel = 1;
-    } else {
-        jmenovatel = j;
-    }
+    if (j == 0) jmenovatel = 1;
+    else jmenovatel = j;
 }
 
 Zlomek::~Zlomek() {}
 
-// --- ROZEPSANÉ SETTERY ---
+// Rozepsané Settery
 void Zlomek::setCitatel(int c) {
     citatel = c;
 }
 
 void Zlomek::setJmenovatel(int j) {
-    if (j != 0) {
-        jmenovatel = j;
-    }
+    if (j != 0) jmenovatel = j;
 }
 
-// --- ROZEPSANÉ GETTERY ---
+// Rozepsané Gettery
 int Zlomek::getCitatel() const {
     return citatel;
 }
@@ -37,9 +44,11 @@ int Zlomek::getJmenovatel() const {
     return jmenovatel;
 }
 
-// Bod 4: Ostatní metody
-double Zlomek::naDesetinne() const {
-    return (double)citatel / jmenovatel;
+// Metody pro bod 4
+void Zlomek::zkrat() {
+    int nsd = najdiNSD(citatel, jmenovatel);
+    citatel = citatel / nsd;
+    jmenovatel = jmenovatel / nsd;
 }
 
 void Zlomek::prevrat() {
@@ -50,7 +59,11 @@ void Zlomek::prevrat() {
     }
 }
 
-// Bod 3: Výpis přes operátor <<
+double Zlomek::naDesetinne() const {
+    return (double)citatel / jmenovatel;
+}
+
+// Přetížený operátor <<
 std::ostream& operator<<(std::ostream& os, const Zlomek& z) {
     os << z.citatel << "/" << z.jmenovatel;
     return os;
