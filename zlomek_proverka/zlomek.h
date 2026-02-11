@@ -1,27 +1,33 @@
 #ifndef ZLOMEK_H
 #define ZLOMEK_H
+#include <iostream>
 
 class Zlomek {
 private:
-    int citatel;   // Bod 1: Soukromé atributy
+    int citatel;   
     int jmenovatel;
 
+    // Pomocná metoda pro krácení (vnitřní logika)
+    int najdiNSD(int a, int b) const;
+
 public:
-    // Bod 2: Přetížené konstruktory
-    Zlomek();
+    Zlomek(); 
     Zlomek(int c, int j);
     ~Zlomek();
 
-    // Bod 3: Získání/nastavení (Getters/Setters)
+    // Gettery a Settery (rozepsané v .cpp)
     void setCitatel(int c);
     void setJmenovatel(int j);
     int getCitatel() const;
     int getJmenovatel() const;
 
-    // Bod 3 a 4: Metody pro výpis a operace
-    void vypis() const;
+    // Metody pro bod 4
+    void zkrat();           // Metoda, NE operátor
+    void prevrat();         // Metoda se swapem
     double naDesetinne() const;
-    void prevrat(); // Prohození (swap)
+
+    // Přetížený operátor pro výpis (bod 3)
+    friend std::ostream& operator<<(std::ostream& os, const Zlomek& z);
 };
 
 #endif
